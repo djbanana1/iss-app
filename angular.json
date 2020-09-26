@@ -8,7 +8,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "",
       "schematics": {},
       "architect": {
         "build": {
@@ -19,6 +19,9 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/scss"]
+            },
             "assets": [
               {
                 "glob": "**/*",
@@ -42,6 +45,14 @@
             "scripts": []
           },
           "configurations": {
+            "dev-production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev-prod.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -77,6 +88,9 @@
             "browserTarget": "app:build"
           },
           "configurations": {
+            "dev-production": {
+              "browserTarget": "test-cli:build:dev-production"
+            },
             "production": {
               "browserTarget": "app:build:production"
             },
@@ -114,6 +128,9 @@
             ]
           },
           "configurations": {
+            "dev-production": {
+              "browserTarget": "test-cli:build:dev-production"
+            },
             "ci": {
               "progress": false,
               "watch": false
@@ -123,11 +140,7 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
+            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json", "e2e/tsconfig.json"],
             "exclude": ["**/node_modules/**"]
           }
         },
@@ -138,6 +151,9 @@
             "devServerTarget": "app:serve"
           },
           "configurations": {
+            "dev-production": {
+              "browserTarget": "test-cli:build:dev-production"
+            },
             "production": {
               "devServerTarget": "app:serve:production"
             },
@@ -152,6 +168,9 @@
             "browserTarget": "app:build"
           },
           "configurations": {
+            "dev-production": {
+              "browserTarget": "test-cli:build:dev-production"
+            },
             "production": {
               "browserTarget": "app:build:production"
             }
@@ -164,6 +183,9 @@
             "devServerTarget": "app:serve"
           },
           "configurations": {
+            "dev-production": {
+              "browserTarget": "test-cli:build:dev-production"
+            },
             "production": {
               "cordovaBuildTarget": "app:ionic-cordova-build:production",
               "devServerTarget": "app:serve:production"

@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -11,10 +11,26 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@auth/*": ["app/pages/auth/*"],
+      "@pages/*": ["app/pages/*"],
+      "@configs/*": ["app/configs/*"],
+      "@bases/*": ["app/core/bases/*"],
+      "@guards/*": ["app/core/guards/*"],
+      "@models/*": ["app/core/models/*"],
+      "@services/*": ["app/core/services/*"],
+      "@components/*": ["app/shared/components/*"],
+      "@fragments/*": ["app/shared/fragments/*"],
+      "@layouts/*": ["app/shared/layouts/*"],
+      "@modals/*": ["app/shared/modals/*"],
+      "@pipes/*": ["app/shared/pipes/*"],
+      "@vendors/*": ["app/shared/vendors/*"],
+      "@shared/*": ["app/shared/*"],
+      "@app/*": ["app/*"]
+    },
+    "lib": ["es2018", "dom"]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

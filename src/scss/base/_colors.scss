@@ -1,0 +1,29 @@
+$use-default-colors-map: true;
+
+$us-color-settings: (
+  primary: (
+    base: #3880ff,
+  ),
+  secondary: (
+    base: #0cd1e8,
+  ),
+  tertiary: (
+    base: #7044ff,
+  ),
+  light: (
+    base: #f4f5f8,
+  ),
+  medium: (
+    base: #989aa2,
+  ),
+  dark: (
+    base: #222428,
+  ),
+);
+
+$color-darken: 12%;
+$color-lighten: 12%;
+$color-opacity: 0.3;
+
+$isDeeper: false;
+$isDeepest: false;
