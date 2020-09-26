@@ -1,15 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { CalculationRoutingModule } from './calculation-routing.module';
-import { CalculationComponent } from './calculation.component';
-
+import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
+import { IonicModule } from '@ionic/angular'
+import { CalculationRoutingModule } from './calculation-routing.module'
+import { CalculationComponent } from './calculation.component'
 
 @NgModule({
   declarations: [CalculationComponent],
-  imports: [
-    CommonModule,
-    CalculationRoutingModule
-  ]
+  imports: [CommonModule, CalculationRoutingModule, IonicModule],
 })
-export class CalculationModule { }
+export class CalculationModule {}
