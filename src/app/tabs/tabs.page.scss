@@ -1,1 +1,15 @@
-
+:host {
+  ion-tabs {
+    ion-tab-bar {
+      height: 62px;
+      ion-tab-button {
+        ion-icon {
+          padding-bottom: 2px;
+        }
+        ion-label {
+          font-size: 12pt;
+        }
+      }
+    }
+  }
+}
