@@ -11,61 +11,45 @@ export class CalculationComponent implements OnInit {
   public iss_longitude;
   public gps_latitude;
   public gps_longitude;
+  public current_place;
+  public current_zip;
 
   constructor(private geolocation: Geolocation) {
 
     this.geolocation.getCurrentPosition().then((resp) => {
+      this.gps_latitude = resp.coords.latitude
+      this.gps_longitude = resp.coords.longitude
+      this.getRegion(resp.coords.longitude,resp.coords.latitude)
      }).catch((error) => {
        console.log('Error getting location', error);
      });
-     
-     let watch = this.geolocation.watchPosition();
-     watch.subscribe((data) => {
-      this.gps_latitude = data.coords.latitude
-      this.gps_longitude = data.coords.longitude
-     });
 
-
-    // Create a request variable and assign a new XMLHttpRequest object to it.
-    var request = new XMLHttpRequest()
-
-    // Open a new connection, using the GET request on the URL endpoint
-    request.open('GET', 'http://api.open-notify.org/iss-now.json', true)
-
-    request.onload = function () {
-      // Begin accessing JSON data here
-      var data = JSON.parse(this.response)
-
-      if (request.status >= 200 && request.status < 400) {
-        this.iss_latitude = data.iss_position.latitude
-        this.iss_longitude = data.iss_position.longitude
-        this.getRegion(this.iss_longitude, this.iss_latitude)
-      } else {
-        console.log('error')
-      }
+    const userAction = async () => {
+      const response = await fetch('http://api.open-notify.org/iss-now.json');
+      const myJson = await response.json(); //extract JSON from the http response
+      this.iss_latitude = myJson.iss_position.latitude
+      this.iss_longitude = myJson.iss_position.longitude
     }
 
-    // Send request
-    request.send()
-
-
+    userAction()
 
   }
 
-  getRegion(long:string, late:string) {
+  getRegion(long, late) {
 
      // Create a request variable and assign a new XMLHttpRequest object to it.
      var request = new XMLHttpRequest()
 
      // Open a new connection, using the GET request on the URL endpoint
-     request.open('GET', 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+late+','+long+'&sensor=false', true)
+     request.open('GET', 'http://open.mapquestapi.com/geocoding/v1/reverse?key=ZohDzfogWWQncGWVtf3ZNQddHR6wZpZv&location='+late+','+long, true)
  
-     request.onload = function () {
+     request.onload = () => {
        // Begin accessing JSON data here
-       var data = JSON.parse(this.response)
+       var data = JSON.parse(request.response)
  
        if (request.status >= 200 && request.status < 400) {
-         console.log(data)
+         this.current_place = data.results[0]['locations'][0]['adminArea5']
+         this.current_zip = data.results[0]['locations'][0]['postalCode']
        } else {
          console.log('error')
        }
