@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core'
 import * as THREE from 'three'
+import 'three/examples/js/controls/OrbitControls'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 @Component({
@@ -10,7 +11,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 export class ModelComponent implements AfterViewInit {
   @ViewChild('rendererContainer') rendererContainer: ElementRef
 
-  renderer = new THREE.WebGLRenderer()
+  renderer = new THREE.WebGLRenderer({ antialias: true })
   scene = null
   camera = null
   mesh = null
@@ -22,18 +23,24 @@ export class ModelComponent implements AfterViewInit {
     this.scene.background = new THREE.Color(0xffffff)
 
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000)
-    this.camera.position.z = 1000
+    this.camera.position.z = 200
 
-    const geometry = new THREE.BoxGeometry(200, 200, 200)
-    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-    this.mesh = new THREE.Mesh(geometry, material)
+    let controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
+    controls.addEventListener('change', this.renderer)
+
+    // let hLight = new THREE.AmbientLight(0x404040, 100)
+    // this.scene.add(hLight)
+
+    let directionalLight = new THREE.DirectionalLight(0xffffff, 100)
+    directionalLight.position.set(0, 10, 0)
+    directionalLight.castShadow = true
+    this.scene.add(directionalLight)
 
     loader.load(
       'assets/model/iss.glb',
       (gltf) => {
-        console.log(gltf)
-        let sceneModel = gltf.scene
-        this.scene.add(sceneModel)
+        gltf.scene.rotateY((45 / 180) * Math.PI)
+        this.scene.add(gltf.scene)
       },
       (loading) => {},
       (error) => {
@@ -50,8 +57,6 @@ export class ModelComponent implements AfterViewInit {
 
   animate() {
     window.requestAnimationFrame(() => this.animate())
-    this.mesh.rotation.x += 0.01
-    this.mesh.rotation.y += 0.02
     this.renderer.render(this.scene, this.camera)
   }
 }
