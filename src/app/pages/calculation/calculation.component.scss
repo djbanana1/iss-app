@@ -1,6 +1,36 @@
 :host {
   ion-app {
     ion-content {
+      .btn-select-container {
+        margin: auto;
+        width: 80%;
+        position: relative;
+        top: 15px;
+      }
+      .btn-select {
+        color: var(--dark);
+        font-size: 14pt;
+        border: solid var(--dark) 2px;
+      }
+      .btn-select-1 {
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+        width: 27%;
+      }
+      .btn-select-2 {
+        width: 27%;
+      }
+      .btn-select-3 {
+        border-left: none;
+        border-radius: 0 4px 4px 0;
+        width: 46%;
+      }
+      .user-location-content {
+        position: relative;
+        margin: auto;
+        width: 95%;
+        top: 30px;
+      }
     }
   }
 }
