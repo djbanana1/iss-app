@@ -1,10 +1,15 @@
 <ion-app>
   <ion-content>
     <div class="btn-select-container">
-        <button class="btn-select btn-select-1">GPS</button>
-        <button class="btn-select btn-select-2">Ort</button>
-        <button class="btn-select btn-select-3">Koordinaten</button>
+      <button class="btn-select btn-select-1">GPS</button>
+      <button class="btn-select btn-select-2">Ort</button>
+      <button class="btn-select btn-select-3">Koordinaten</button>
     </div>
-   {{ current_zip }} - {{ current_place }}
+    <div class="user-location-content">
+      <input class="user-location" id="user-location-late" type="text" value="{{ gps_latitude }}"/>
+      <input class="user-location" id="user-location-long" type="text" value="{{ gps_longitude }}"/>
+      <input class="user-location" id="user-location-zip" type="text" value="{{ current_zip }}"/>
+      <input class="user-location" id="user-location-place" type="text" value="{{ current_place }}"/>
+    </div>
   </ion-content>
 </ion-app>

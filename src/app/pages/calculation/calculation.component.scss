@@ -9,21 +9,27 @@
       }
       .btn-select {
         color: var(--dark);
-        font-size: 20px;
+        font-size: 14pt;
         border: solid var(--dark) 2px;
       }
       .btn-select-1 {
         border-right: none;
         border-radius: 4px 0 0 4px;
-        width: 30%;
+        width: 27%;
       }
       .btn-select-2 {
-        width: 30%;
+        width: 27%;
       }
       .btn-select-3 {
         border-left: none;
         border-radius: 0 4px 4px 0;
-        width: 40%;
+        width: 46%;
+      }
+      .user-location-content {
+        position: relative;
+        margin: auto;
+        width: 95%;
+        top: 30px;
       }
     }
   }

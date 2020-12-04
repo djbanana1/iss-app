@@ -29,6 +29,7 @@ export class CalculationComponent implements OnInit {
       const myJson = await response.json(); //extract JSON from the http response
       this.iss_latitude = myJson.iss_position.latitude
       this.iss_longitude = myJson.iss_position.longitude
+      console.log(myJson)
     }
 
     userAction()
