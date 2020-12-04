@@ -1,6 +1,14 @@
 :host {
   ion-app {
     ion-content {
+      .isLoading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: white;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+      }
     }
   }
 }
