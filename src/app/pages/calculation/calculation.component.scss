@@ -1,35 +1,105 @@
 :host {
   ion-app {
     ion-content {
-      .btn-select-container {
-        margin: auto;
-        width: 80%;
-        position: relative;
-        top: 15px;
-      }
-      .btn-select {
-        color: var(--dark);
-        font-size: 14pt;
-        border: solid var(--dark) 2px;
-      }
-      .btn-select-1 {
-        border-right: none;
-        border-radius: 4px 0 0 4px;
-        width: 27%;
-      }
-      .btn-select-2 {
-        width: 27%;
-      }
-      .btn-select-3 {
-        border-left: none;
-        border-radius: 0 4px 4px 0;
-        width: 46%;
-      }
-      .user-location-content {
-        position: relative;
-        margin: auto;
-        width: 95%;
-        top: 30px;
+      .swiper-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: var(--ion-safe-area-top);
+        .swiper-buttons {
+          padding-top: 12px;
+          button {
+            width: 122px;
+            padding: 10px;
+            color: white;
+            background-color: var(--project-blue);
+            font-size: 12.5pt;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            text-align: center;
+            &:active {
+              background-color: var(--project-blue-light);
+            }
+          }
+          .button-active {
+            background-color: var(--project-blue-light);
+          }
+          .swiper-button-auto {
+            border-bottom-left-radius: 8px;
+            border-top-left-radius: 8px;
+          }
+          .swiper-button-manuell {
+            border-bottom-right-radius: 8px;
+            border-top-right-radius: 8px;
+          }
+        }
+        .slides-container {
+          display: flex;
+          width: 100%;
+          padding-top: 24px;
+          .slide-auto {
+            display: flex;
+            width: 100%;
+            margin-left: -100%;
+            transition: all 0.3s ease-in-out;
+          }
+          .slide-manual {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-right: -100%;
+            transition: all 0.3s ease-in-out;
+            .rows-container {
+              display: flex;
+              flex-direction: row;
+            }
+            button {
+              width: 122px;
+              padding: 8px;
+              margin: 12px auto;
+              border-radius: 8px;
+              color: white;
+              background-color: var(--project-blue);
+              font-size: 12pt;
+              font-weight: bold;
+              transition: all 0.3s ease-in-out;
+              text-align: center;
+              &:active {
+                background-color: var(--project-blue-light);
+              }
+            }
+          }
+          .slide-active-auto {
+            margin-left: 0;
+            opacity: 1;
+          }
+          .slide-active-manual {
+            opacity: 1;
+          }
+          .slide-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50%;
+            p {
+              display: flex;
+              margin: 5px;
+              label {
+                width: 50%;
+              }
+              input {
+                width: 48%;
+                border: solid 2px var(--project-blue-light);
+                border-radius: 4px;
+                background-color: transparent;
+                &:focus {
+                  color: black;
+                  background-color: white;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

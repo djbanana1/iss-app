@@ -1,14 +1,20 @@
 $use-default-colors-map: true;
 
 $us-color-settings: (
-  primary: (
-    base: #3880ff,
+  project-blue: (
+    base: #0e468f,
   ),
-  secondary: (
-    base: #0cd1e8,
+  project-red: (
+    base: #db3e2c,
   ),
-  tertiary: (
-    base: #7044ff,
+  project-light-green: (
+    base: #c5db67,
+  ),
+  project-light-blue: (
+    base: #2c78db,
+  ),
+  project-green: (
+    base: #778f15,
   ),
   light: (
     base: #f4f5f8,

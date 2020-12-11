@@ -1,15 +1,55 @@
 <ion-app>
   <ion-content>
-    <div class="btn-select-container">
-      <button class="btn-select btn-select-1">GPS</button>
-      <button class="btn-select btn-select-2">Ort</button>
-      <button class="btn-select btn-select-3">Koordinaten</button>
-    </div>
-    <div class="user-location-content">
-      <input class="user-location" id="user-location-late" type="text" value="{{ gps_latitude }}"/>
-      <input class="user-location" id="user-location-long" type="text" value="{{ gps_longitude }}"/>
-      <input class="user-location" id="user-location-zip" type="text" value="{{ current_zip }}"/>
-      <input class="user-location" id="user-location-place" type="text" value="{{ current_place }}"/>
+    <div class="swiper-container">
+      <div class="swiper-buttons">
+        <button
+          class="swiper-button-auto"
+          [class.button-active]="!swiper"
+          (click)="autoCalculation()"
+        >
+          Automatisch
+        </button>
+        <button
+          class="swiper-button-manuell"
+          [class.button-active]="swiper"
+          (click)="swiper = true"
+        >
+          Manuell
+        </button>
+      </div>
+      <div class="slides-container">
+        <div class="slide-auto" [class.slide-active-auto]="!swiper">
+          <div class="slide-row">
+            <p>
+              <span>Latitude:</span>&nbsp;<span>{{ gps_latitude }}</span>
+            </p>
+            <p>
+              <span>Longitude:</span>&nbsp;<span>{{ gps_longitude }}</span>
+            </p>
+          </div>
+          <div class="slide-row">
+            <p>
+              <span>PLZ:</span>&nbsp;<span>{{ current_zip }}</span>
+            </p>
+            <p>
+              <span>Ort:</span>&nbsp;<span>{{ current_place }}</span>
+            </p>
+          </div>
+        </div>
+        <div class="slide-manual" [class.slide-active-manual]="swiper">
+          <div class="rows-container">
+            <div class="slide-row">
+              <p><label>Latitude:</label><input type="number" /></p>
+              <p><label>Longitude:</label><input type="number" /></p>
+            </div>
+            <div class="slide-row">
+              <p><label>PLZ:</label><input type="number" /></p>
+              <p><label>Ort:</label><input type="text" /></p>
+            </div>
+          </div>
+          <button>Berechnen</button>
+        </div>
+      </div>
     </div>
   </ion-content>
 </ion-app>
