@@ -23,13 +23,12 @@ export class CalculationComponent implements OnInit {
      }).catch((error) => {
        console.log('Error getting location', error);
      });
-
+this.calulate()
     const userAction = async () => {
       const response = await fetch('http://api.open-notify.org/iss-now.json');
       const myJson = await response.json(); //extract JSON from the http response
       this.iss_latitude = myJson.iss_position.latitude
       this.iss_longitude = myJson.iss_position.longitude
-      console.log(myJson)
     }
 
     userAction()
@@ -61,4 +60,29 @@ export class CalculationComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+
+
+  calulate() {
+    // Setup
+    const a = 51.6219;
+    const c = 360 / 383.568;
+
+    var lat1 = -51.6219;
+    var long1 = -92.2547;
+
+    var lat2 = -51.6199;
+    var long2 = 24.7959;
+
+    // Calc
+    var y_a = lat1/a; // y:a
+
+    var b = Math.asin(y_a)*180/Math.PI / c - long1;
+    if (lat1 > lat2) {
+      var x2 = (90/c - long1) * 2 + long1;
+      b = x2 - (Math.asin(y_a)*180/Math.PI / c);
+    }
+
+    b = Math.PI/180 * b;
+  }
 }
