@@ -36,7 +36,7 @@
         .slides-container {
           display: flex;
           width: 100%;
-          padding-top: 24px;
+          padding-top: 44px;
           .slide-auto {
             display: flex;
             width: 100%;
@@ -49,9 +49,26 @@
             width: 100%;
             margin-right: -100%;
             transition: all 0.3s ease-in-out;
+            .types-container {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding-bottom: 18px;
+              label {
+                padding-left: 4px;
+                margin-right: 12px;
+                &:last-child {
+                  margin-right: 0;
+                }
+              }
+            }
             .rows-container {
               display: flex;
               flex-direction: row;
+              min-height: 74px;
+              .slide-row {
+                width: 100%;
+              }
             }
             button {
               width: 122px;
@@ -94,10 +111,23 @@
                 background-color: transparent;
                 &:focus {
                   color: black;
-                  background-color: white;
+                  background-color: var(--light-dark);
                 }
               }
             }
+          }
+        }
+        .result-container {
+          height: 64px;
+        }
+        .tracker-container {
+          width: 100vw;
+          height: 50vw;
+          background-size: cover;
+          background-image: url('/assets/world-map.svg');
+          .tracker {
+            width: 100%;
+            height: 100%;
           }
         }
       }
