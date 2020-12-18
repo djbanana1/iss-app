@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Component } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { Geolocation } from '@ionic-native/geolocation/ngx'
-import { IssInformation, UserInformation } from './calculation'
+import { GeoLocation, UserInformation } from './calculation'
 
 @Component({
   selector: 'calculation',
@@ -10,7 +10,7 @@ import { IssInformation, UserInformation } from './calculation'
   styleUrls: ['./calculation.component.scss'],
 })
 export class CalculationComponent {
-  issInfos: IssInformation = {
+  issInfos: GeoLocation = {
     latitude: null,
     longitude: null,
   }
@@ -21,6 +21,10 @@ export class CalculationComponent {
     place: null,
   }
 
+  //Canvas
+  ctx
+  map
+
   swiper = false
   itemForm
   calculationType = 'location_input'
@@ -30,7 +34,6 @@ export class CalculationComponent {
     private httpClient: HttpClient,
     private formBuilder: FormBuilder,
   ) {
-    this.getIssLocation()
     this.itemForm = this.formBuilder.group({
       lat: '',
       lng: '',
@@ -39,19 +42,32 @@ export class CalculationComponent {
     })
   }
 
-  ionViewDidEnter(): void {
-    this.drawIss()
+  async ionViewDidEnter() {
     this.getMyLocation()
+    this.autoCalculation()
+    await this.getCanvas()
+    await this.getIssLocation()
+    this.drawIssPosition(this.issInfos)
+    this.infinitDrawIss()
   }
 
-  autoCalculation() {
+  async autoCalculation() {
     this.swiper = false
-    this.getMyLocation()
+    await this.getMyLocation()
     this.drawMyPosition(this.userInfos)
   }
 
   changeCalculationType($event) {
     this.calculationType = $event
+  }
+
+  infinitDrawIss() {
+    setTimeout(async () => {
+      await this.getIssLocation()
+      console.log('Iss', this.issInfos)
+      this.drawIssPosition(this.issInfos)
+      this.infinitDrawIss()
+    }, 5000)
   }
 
   async getMyLocation() {
@@ -67,13 +83,14 @@ export class CalculationComponent {
       })
   }
 
-  async getIssLocation() {
-    await this.httpClient
-      .get('http://api.open-notify.org/iss-now.json')
-      .subscribe((response: any) => {
+  async getIssLocation(): Promise<void> {
+    return new Promise((resolve) => {
+      this.httpClient.get('http://api.open-notify.org/iss-now.json').subscribe((response: any) => {
         this.issInfos.latitude = response.iss_position.latitude
         this.issInfos.longitude = response.iss_position.longitude
+        resolve()
       })
+    })
   }
 
   async getLocation(long, late) {
@@ -105,8 +122,11 @@ export class CalculationComponent {
       )
       .subscribe(
         (response: any) => {
-          console.log(response)
-          return response.results[0]['locations'][0]['adminArea5'].latLng
+          let coordinates = {
+            latitude: response.results[0]['locations'][0].displayLatLng.lat,
+            longitude: response.results[0]['locations'][0].displayLatLng.lng,
+          }
+          return coordinates
         },
         (error) => {
           console.log(error)
@@ -125,29 +145,6 @@ export class CalculationComponent {
     if (this.calculationType == 'coordinates_input') {
       // @TODO implement calculation
     }
-  }
-
-  drawIss() {
-    let e = document.getElementById('tracker').getBoundingClientRect()
-    let width = e.width
-    let height = e.height
-
-    let c = <HTMLCanvasElement>document.getElementById('tracker')
-    let ctx = c.getContext('2d')
-  }
-
-  drawMyPosition(coordinates) {
-    console.log('circle')
-    let e = document.getElementById('tracker').getBoundingClientRect()
-    let width = e.width
-    let height = e.height
-
-    let c = <HTMLCanvasElement>document.getElementById('tracker')
-    let ctx = c.getContext('2d')
-    ctx.beginPath()
-    ctx.arc(2, 1, 1, 0, 2 * Math.PI, true)
-    ctx.fillStyle = 'red'
-    ctx.fill()
   }
 
   calculate() {
@@ -171,5 +168,53 @@ export class CalculationComponent {
     }
 
     b = (Math.PI / 180) * b
+  }
+
+  drawMyPosition(coordinates) {
+    let canvasMyPosition: GeoLocation = this.calculateCanvasPositions(coordinates)
+    this.ctx.beginPath()
+    this.ctx.arc(canvasMyPosition.longitude, canvasMyPosition.latitude, 3, 0, 2 * Math.PI, true)
+    this.ctx.fillStyle = 'red'
+    this.ctx.fill()
+  }
+
+  drawIssPosition(coordinates: GeoLocation) {
+    let map = document.getElementById('tracker').getBoundingClientRect()
+    let c = <HTMLCanvasElement>document.getElementById('tracker')
+    let ctx = c.getContext('2d')
+    ctx.canvas.width = this.map.width
+    ctx.canvas.height = this.map.height
+
+    let canvasIssPosition: GeoLocation = this.calculateCanvasPositions(coordinates)
+    ctx.beginPath()
+    ctx.arc(canvasIssPosition.longitude, canvasIssPosition.latitude, 3, 0, 2 * Math.PI, true)
+    ctx.fillStyle = 'green'
+    ctx.fill()
+    ctx.beginPath()
+    ctx.arc(canvasIssPosition.longitude, canvasIssPosition.latitude, 10, 0, 2 * Math.PI, true)
+    ctx.strokeStyle = 'green'
+    ctx.stroke()
+  }
+
+  drawIssSine() {}
+
+  calculateCanvasPositions(coordinates: GeoLocation) {
+    let canvasCoordinates = {
+      latitude: ((90 - Number(coordinates.latitude)) * this.map.height) / 180,
+      longitude: ((180 + Number(coordinates.longitude)) * this.map.width) / 360,
+    }
+    console.log(canvasCoordinates)
+    return canvasCoordinates
+  }
+
+  getCanvas(): Promise<void> {
+    return new Promise((resolve) => {
+      this.map = document.getElementById('tracker').getBoundingClientRect()
+      let c = <HTMLCanvasElement>document.getElementById('tracker')
+      this.ctx = c.getContext('2d')
+      this.ctx.canvas.width = this.map.width
+      this.ctx.canvas.height = this.map.height
+      resolve()
+    })
   }
 }

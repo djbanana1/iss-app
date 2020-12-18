@@ -21,10 +21,10 @@
         <div class="slide-auto" [class.slide-active-auto]="!swiper">
           <div class="slide-row">
             <p>
-              <span>Latitude:</span>&nbsp;<span>{{ userInfos?.latitude }}</span>
+              <span>Latitude:</span>&nbsp;<span>{{ userInfos?.latitude | number: '1.0-5' }}</span>
             </p>
             <p>
-              <span>Longitude:</span>&nbsp;<span>{{ userInfos?.longitude }}</span>
+              <span>Longitude:</span>&nbsp;<span>{{ userInfos?.longitude | number: '1.0-5' }}</span>
             </p>
           </div>
           <div class="slide-row">
@@ -72,6 +72,7 @@
       <div class="result-container"></div>
       <div class="tracker-container">
         <canvas class="tracker" id="tracker"></canvas>
+        <canvas class="iss-location" id="iss-location"></canvas>
       </div>
     </div>
   </ion-content>
