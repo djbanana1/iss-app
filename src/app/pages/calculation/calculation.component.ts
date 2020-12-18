@@ -35,15 +35,14 @@ export class CalculationComponent {
     private formBuilder: FormBuilder,
   ) {
     this.itemForm = this.formBuilder.group({
-      lat: '',
-      lng: '',
+      latitude: '',
+      longitude: '',
       zip: '',
       location: '',
     })
   }
 
   async ionViewDidEnter() {
-    this.getMyLocation()
     this.autoCalculation()
     await this.getCanvas()
     await this.getIssLocation()
@@ -53,6 +52,10 @@ export class CalculationComponent {
 
   async autoCalculation() {
     this.swiper = false
+    this.getCanvas()
+    if (this.userInfos.latitude) {
+      this.drawMyPosition(this.userInfos)
+    }
     await this.getMyLocation()
     this.drawMyPosition(this.userInfos)
   }
@@ -64,7 +67,6 @@ export class CalculationComponent {
   infinitDrawIss() {
     setTimeout(async () => {
       await this.getIssLocation()
-      console.log('Iss', this.issInfos)
       this.drawIssPosition(this.issInfos)
       this.infinitDrawIss()
     }, 5000)
@@ -112,38 +114,45 @@ export class CalculationComponent {
       )
   }
 
-  async getCoordinates(location, zip) {
-    await this.httpClient
-      .get(
-        'http://open.mapquestapi.com/geocoding/v1/address?key=ZohDzfogWWQncGWVtf3ZNQddHR6wZpZv&location=' +
-          location +
-          ' ,' +
-          zip,
-      )
-      .subscribe(
-        (response: any) => {
-          let coordinates = {
-            latitude: response.results[0]['locations'][0].displayLatLng.lat,
-            longitude: response.results[0]['locations'][0].displayLatLng.lng,
-          }
-          return coordinates
-        },
-        (error) => {
-          console.log(error)
-        },
-      )
+  getCoordinates(location, zip) {
+    return new Promise((resolve) => {
+      this.httpClient
+        .get(
+          'http://open.mapquestapi.com/geocoding/v1/address?key=ZohDzfogWWQncGWVtf3ZNQddHR6wZpZv&location=' +
+            location +
+            ' ,' +
+            zip,
+        )
+        .subscribe(
+          (response: any) => {
+            let coordinates = {
+              latitude: response.results[0].locations[0].displayLatLng.lat,
+              longitude: response.results[0].locations[0].displayLatLng.lng,
+            }
+            resolve(coordinates)
+          },
+          (error) => {
+            console.log(error)
+          },
+        )
+    })
   }
 
-  submit() {
+  async submit() {
+    this.getCanvas()
     if (this.calculationType == 'location_input') {
-      let coordinates = this.getCoordinates(
+      let coordinates = await this.getCoordinates(
         this.itemForm.get('location').value,
         this.itemForm.get('zip').value,
       )
       this.drawMyPosition(coordinates)
     }
     if (this.calculationType == 'coordinates_input') {
-      // @TODO implement calculation
+      let coordinates = await this.getCoordinates(
+        this.itemForm.get('latitude').value,
+        this.itemForm.get('longitude').value,
+      )
+      this.drawMyPosition(coordinates)
     }
   }
 
@@ -179,8 +188,8 @@ export class CalculationComponent {
   }
 
   drawIssPosition(coordinates: GeoLocation) {
-    let map = document.getElementById('tracker').getBoundingClientRect()
-    let c = <HTMLCanvasElement>document.getElementById('tracker')
+    let map = document.getElementById('iss-location').getBoundingClientRect()
+    let c = <HTMLCanvasElement>document.getElementById('iss-location')
     let ctx = c.getContext('2d')
     ctx.canvas.width = this.map.width
     ctx.canvas.height = this.map.height
@@ -203,7 +212,6 @@ export class CalculationComponent {
       latitude: ((90 - Number(coordinates.latitude)) * this.map.height) / 180,
       longitude: ((180 + Number(coordinates.longitude)) * this.map.width) / 360,
     }
-    console.log(canvasCoordinates)
     return canvasCoordinates
   }
 

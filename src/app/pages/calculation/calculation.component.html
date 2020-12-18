@@ -58,8 +58,8 @@
           </div>
           <form class="rows-container" [formGroup]="itemForm">
             <div class="slide-row" *ngIf="calculationType == 'coordinates_input'">
-              <p><label>Latitude:</label><input type="number" formControlName="lat" /></p>
-              <p><label>Longitude:</label><input type="number" formControlName="lng" /></p>
+              <p><label>Latitude:</label><input type="number" formControlName="latitude" /></p>
+              <p><label>Longitude:</label><input type="number" formControlName="longitude" /></p>
             </div>
             <div class="slide-row" *ngIf="calculationType == 'location_input'">
               <p><label>Ort:</label><input type="text" formControlName="location" /></p>

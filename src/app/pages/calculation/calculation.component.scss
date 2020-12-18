@@ -121,13 +121,18 @@
           height: 64px;
         }
         .tracker-container {
+          position: relative;
           width: 100vw;
           height: 50vw;
           background-size: contain;
           background-image: url('/assets/world-map.svg');
           .tracker {
+            position: absolute;
             width: 100%;
             height: 100%;
+          }
+          #iss-location {
+            position: absolute;
           }
         }
       }
