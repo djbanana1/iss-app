@@ -135,7 +135,16 @@
           }
           #iss-location {
             position: absolute;
+            width: 100%;
+            height: 100%;
           }
+        }
+        .fullscreen {
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          background-color: #1b1b1b;
+          z-index: 10000000000;
         }
       }
     }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Component } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { Geolocation } from '@ionic-native/geolocation/ngx'
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx'
 import { Platform } from '@ionic/angular'
 import { GeoLocation, UserInformation } from './calculation'
 
@@ -35,12 +36,23 @@ export class CalculationComponent {
     private httpClient: HttpClient,
     private formBuilder: FormBuilder,
     private platform: Platform,
+    private screenOrientation: ScreenOrientation,
   ) {
     this.itemForm = this.formBuilder.group({
       latitude: '',
       longitude: '',
       zip: '',
       location: '',
+    })
+    this.platform.ready().then(async () => {
+      this.screenOrientation.onChange().subscribe(() => {
+        console.log(this.screenOrientation.type)
+        if (this.screenOrientation.type == 'landscape-primary') {
+          document.getElementById('tracker-container').classList.add('fullscreen')
+        } else {
+          document.getElementById('tracker-container').classList.remove('fullscreen')
+        }
+      })
     })
   }
 
