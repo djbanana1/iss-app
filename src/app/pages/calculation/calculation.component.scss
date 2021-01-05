@@ -104,11 +104,13 @@
               label {
                 width: 50%;
               }
-              input {
+              ion-input {
                 width: 48%;
+                height: 30px;
                 border: solid 2px var(--project-blue-light);
                 border-radius: 4px;
                 background-color: transparent;
+                font-size: 14px;
                 &:focus {
                   color: black;
                   background-color: var(--light-dark);

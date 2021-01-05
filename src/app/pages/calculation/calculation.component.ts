@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Component } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { Geolocation } from '@ionic-native/geolocation/ngx'
+import { Platform } from '@ionic/angular'
 import { GeoLocation, UserInformation } from './calculation'
 
 @Component({
@@ -33,6 +34,7 @@ export class CalculationComponent {
     private geolocation: Geolocation,
     private httpClient: HttpClient,
     private formBuilder: FormBuilder,
+    private platform: Platform,
   ) {
     this.itemForm = this.formBuilder.group({
       latitude: '',
@@ -56,7 +58,10 @@ export class CalculationComponent {
     if (this.userInfos.latitude) {
       this.drawMyPosition(this.userInfos)
     }
-    await this.getMyLocation()
+    await this.platform.ready().then(async () => {
+      await this.getMyLocation()
+    })
+
     this.drawMyPosition(this.userInfos)
   }
 
@@ -80,7 +85,7 @@ export class CalculationComponent {
         this.userInfos.longitude = resp.coords.longitude
         this.getLocation(resp.coords.longitude, resp.coords.latitude)
       })
-      .catch((error) => {
+      .catch(async (error) => {
         console.log('Error getting location', error)
       })
   }

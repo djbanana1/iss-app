@@ -1,6 +1,9 @@
 <ion-app>
   <ion-content>
-    <div #rendererContainer slot="fixed"></div>
-    <div class="isLoading" *ngIf="loading">loading...</div>
+    <div class="object" #rendererContainer slot="fixed"></div>
   </ion-content>
+  <div class="isLoading" *ngIf="loading">
+    <ion-icon src="assets/icon/space-station.svg"></ion-icon>
+    <span>Loading...</span>
+  </div>
 </ion-app>
