@@ -35,6 +35,7 @@
     "cordova": "^10.0.0",
     "cordova-cli": "^1.0.0",
     "ionic": "^5.4.16",
+    "ng2-pdf-viewer": "^6.3.2",
     "rxjs": "~6.5.5",
     "three": "^0.120.1",
     "three-orbit-controls": "^82.1.0",

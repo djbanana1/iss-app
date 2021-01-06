@@ -1,0 +1,16 @@
+:host {
+  ion-app {
+    ion-content {
+      pdf-viewer {
+        padding-top: var(--ion-safe-area-top);
+        overflow: hidden;
+        overflow-y: scroll;
+        ::ng-deep {
+          .ng2-pdf-viewer-container {
+            overflow-x: hidden;
+          }
+        }
+      }
+    }
+  }
+}

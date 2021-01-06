@@ -17,6 +17,15 @@ const routes: Routes = [
         loadChildren: () => import('../pages/model/model.module').then((m) => m.ModelModule),
       },
       {
+        path: 'document',
+        loadChildren: () =>
+          import('../pages/document/document.module').then((m) => m.DocumentModule),
+      },
+      {
+        path: 'model',
+        loadChildren: () => import('../pages/model/model.module').then((m) => m.ModelModule),
+      },
+      {
         path: '',
         redirectTo: '/tabs/calculation',
         pathMatch: 'full',
