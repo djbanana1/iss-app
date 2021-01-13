@@ -66,6 +66,7 @@ export class CalculationComponent {
   }
 
   async ionViewDidEnter() {
+    this.loading = true
     this.getCanvas()
 
     this.platform.ready().then(async () => {
