@@ -77,10 +77,18 @@
           <button (click)="submit()">Berechnen</button>
         </div>
       </div>
-      <div class="result-container"></div>
+      <div class="result-container">
+        {{ timeTillIssAppear }}
+      </div>
       <div class="tracker-container" id="tracker-container">
         <canvas class="tracker" id="tracker"></canvas>
         <canvas class="iss-location" id="iss-location"></canvas>
+      </div>
+    </div>
+    <div class="loading-container" *ngIf="loading">
+      <div class="isLoading">
+        <ion-icon src="assets/icon/space-station.svg"></ion-icon>
+        <span>Loading...</span>
       </div>
     </div>
   </ion-content>
