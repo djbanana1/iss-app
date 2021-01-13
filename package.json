@@ -34,6 +34,7 @@
     "@types/three": "^0.103.2",
     "cordova": "^10.0.0",
     "cordova-cli": "^1.0.0",
+    "cordova-res": "^0.15.2",
     "ionic": "^5.4.16",
     "ng2-pdf-viewer": "^6.3.2",
     "rxjs": "~6.5.5",
