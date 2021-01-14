@@ -307,8 +307,18 @@ export class CalculationComponent {
     var seconds = date.getSeconds()
     var minutes = date.getMinutes()
     var hour = date.getHours()
+
+    let hourNew: String = hour.toString()
+    if (hourNew.length <= 1) {
+      hourNew = '0' + hourNew
+    }
+
+    let minNew: String = minutes.toString()
+    if (minNew.length <= 1) {
+      minNew = '0' + minNew
+    }
     console.log(hour + ':' + minutes + ' Uhr (calc_speed)')
-    this.timeTillIssAppear = hour + ':' + minutes + ' Uhr'
+    this.timeTillIssAppear = hourNew + ':' + minNew + ' Uhr'
 
     //avg time
     rest_time = ctr * avg_time + avg_time * rest_s
